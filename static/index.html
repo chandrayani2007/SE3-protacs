@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE3-PROTACs Predictor</title>
+    <meta name="description" content="Structure-Equivariant Transformer for PROTAC Degradation Prediction">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>SE3-PROTACs <span class="highlight">Predictor</span></h1>
+            <p>Predict PROTAC-mediated protein degradation using Structure-Equivariant Transformers.</p>
+        </header>
+
+        <main class="grid-layout">
+            <section class="glass-card form-section">
+                <h2>Input Parameters</h2>
+                <form id="prediction-form">
+                    <div class="form-group">
+                        <label for="ligase_smi">E3 Ligase Ligand (SMILES)</label>
+                        <input type="text" id="ligase_smi" name="ligase_smi" required placeholder="e.g., CC1=C(C=C... ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ligase_fa">E3 Ligase Sequence (FASTA)</label>
+                        <textarea id="ligase_fa" name="ligase_fa" rows="2" required placeholder="e.g., MVLSPADK..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_smi">Target Warhead (SMILES)</label>
+                        <input type="text" id="target_smi" name="target_smi" required placeholder="e.g., O=C(C)Nc1ccc... ">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target_fa">Target Sequence (FASTA)</label>
+                        <textarea id="target_fa" name="target_fa" rows="2" required placeholder="e.g., MAAAAAAAAA..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="linker_smi">Linker (SMILES)</label>
+                        <input type="text" id="linker_smi" name="linker_smi" required placeholder="e.g., O(CCOCCOCCO)... ">
+                    </div>
+
+                    <button type="submit" id="submit-btn">
+                        <span class="btn-text">Predict Degradation</span>
+                        <span class="loader hidden"></span>
+                    </button>
+                </form>
+            </section>
+
+            <section class="result-section">
+                <div class="glass-card result-card" id="result-card">
+                    <div class="idle-state" id="idle-state">
+                        <div class="icon">🧬</div>
+                        <h3>Ready for Prediction</h3>
+                        <p>Fill out the parameters and click predict to see the result.</p>
+                    </div>
+                    
+                    <div class="active-state hidden" id="active-state">
+                        <h3 class="result-title">Prediction Result</h3>
+                        
+                        <div class="score-ring">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg"
+                                    d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <path class="circle" id="score-circle"
+                                    stroke-dasharray="0, 100"
+                                    d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <text x="18" y="20.35" class="percentage" id="score-text">0.00</text>
+                            </svg>
+                        </div>
+                        
+                        <div class="prediction-label" id="prediction-label">
+                            --
+                        </div>
+                        <p class="score-subtitle">Degradation Score</p>
+                    </div>
+
+                    <div class="error-state hidden" id="error-state">
+                        <div class="icon error-icon">⚠️</div>
+                        <h3>Error</h3>
+                        <p id="error-message">An error occurred during prediction.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
