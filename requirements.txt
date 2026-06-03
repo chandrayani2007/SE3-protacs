@@ -7,3 +7,4 @@ pydantic
 torch-geometric
 fair-esm
 openbabel-wheel
+se3-transformer-pytorch
